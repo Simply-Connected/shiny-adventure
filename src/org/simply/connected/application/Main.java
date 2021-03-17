@@ -28,7 +28,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //launch(args);
-        SteppedOptimizationMethod method = new ParabolicMethod(FUN, 1e-4, new Segment(0d, 2 * Math.PI));
+        SteppedOptimizationMethod method = new ParabolicMethod(FUN, 1e-5, new Segment(0d, 2 * Math.PI));
         System.out.println(method.getCurrSegment());
         while (method.minimize()) {
             System.out.println(method.getCurrSegment());

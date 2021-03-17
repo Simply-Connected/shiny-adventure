@@ -45,27 +45,26 @@ public class FibonacciMethod extends AbstractSteppedOptimizationMethod {
     @Override
     public boolean minimize() { // TODO ПИЗДЕЦ ТОЖЕ НЕ РАБОТАЕТ БЛЯ
         double a = currSegment.getFrom();
-        double b = currSegment.getFrom();
+        double b = currSegment.getTo();
 
         if (n == 1) {
             return false;
         }
         n--;
 
-        if (y1 - y2 < eps) {
+        if (y1 < y2) {
             currSegment = new Segment(a, x2);
             x2 = x1;
             y2 = y1;
-            x1 = a + b - x2;
+            x1 = a + currSegment.getTo() - x2;
             y1 = function.apply(x1);
         } else {
             currSegment = new Segment(x1, b);
             x1 = x2;
             y1 = y2;
-            x2 = a + b - x1;
+            x2 = currSegment.getFrom() + b - x1;
             y2 = function.apply(x2);
         }
-        currSegment = new Segment(x1, x2);
         return true;
     }
 }

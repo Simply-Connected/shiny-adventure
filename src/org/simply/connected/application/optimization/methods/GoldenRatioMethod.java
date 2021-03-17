@@ -36,20 +36,20 @@ public class GoldenRatioMethod extends AbstractSteppedOptimizationMethod {
             return false;
         }
 
-        if (y1 - y2 < eps) {
+        if (y1 < y2) {
             currSegment = new Segment(a, x2);
             x2 = x1;
             y2 = y1;
-            x1 = b - (b - a) * GOLDEN_RATIO;  // TODO НЕ РАБОТАЕТ ЕП ТВАЮ МАТ
+            x1 = x2 - (x2 - a) * GOLDEN_RATIO;  // TODO ПИЗДЕЖ чистой воды
             y1 = function.apply(x1);
         } else {
             currSegment = new Segment(x1, b);
             x1 = x2;
             y1 = y2;
-            x2 = b - (b - a) * GOLDEN_RATIO;
+            x2 = b - (b - x1) * GOLDEN_RATIO;
             y2 = function.apply(x2);
         }
-        currSegment = new Segment(x1, x2);
+
         return true;
     }
 }

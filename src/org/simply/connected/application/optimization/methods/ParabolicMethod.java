@@ -67,7 +67,8 @@ public class ParabolicMethod extends AbstractSteppedOptimizationMethod {
         if (less(x1, minX, x2, x3) && minY >= y2) {
             x1 = minX;
             y1 = minY;
-        } else if (minY < y2) {
+        }
+        if (less(x1, minX, x2, x3) && minY < y2) {
             x3 = x2;
             y3 = y2;
             x2 = minX;
@@ -78,7 +79,8 @@ public class ParabolicMethod extends AbstractSteppedOptimizationMethod {
             y1 = y2;
             x2 = minX;
             y2 = minY;
-        } else if (y2 < minY) {
+        }
+        if (less(x1, x2, minX, x3) && y2 < minY) {
             x3 = minX;
             y3 = minY;
         }
@@ -87,6 +89,7 @@ public class ParabolicMethod extends AbstractSteppedOptimizationMethod {
         if (Math.abs(getMinX() - minX) <= eps) {
             minX = getMinX();
             minY = getMinY();
+            currSegment = new TriplePoint(x1, x2, x3);
             return false;
         }
 

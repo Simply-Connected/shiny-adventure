@@ -28,7 +28,7 @@ public class DichotomyMethod extends AbstractSteppedOptimizationMethod {
         double y2 = function.apply(x2);
 
 
-        if (y1 - y2 < eps) {
+        if (y1 < y2) {
             currSegment = new Segment(a, x2);
         } else {
             currSegment = new Segment(x1, b);

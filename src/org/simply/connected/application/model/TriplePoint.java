@@ -15,11 +15,11 @@ public class TriplePoint extends Segment {
     @Override
     public String toString() {
         return "[" +
-                String.format("%.4f", from) +
+                String.format("%.5f", from) +
                 " ; " +
-                String.format("%.4f", mid) +
+                String.format("%.5f", mid) +
                 " ; " +
-                String.format("%.4f", to) +
+                String.format("%.5f", to) +
                 "]";
     }
 }
