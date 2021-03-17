@@ -1,4 +1,4 @@
-package org.simply.connected.application.optimization.methods;
+package org.simply.connected.application.optimization.methods.stepped;
 
 import org.simply.connected.application.model.Segment;
 import org.simply.connected.application.model.TriplePoint;

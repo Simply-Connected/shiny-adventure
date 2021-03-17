@@ -6,9 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.simply.connected.application.model.Segment;
-import org.simply.connected.application.optimization.methods.*;
+import org.simply.connected.application.optimization.methods.stepped.ParabolicMethod;
+import org.simply.connected.application.optimization.methods.stepped.SteppedOptimizationMethod;
 
-import java.rmi.MarshalException;
 import java.util.function.Function;
 
 
