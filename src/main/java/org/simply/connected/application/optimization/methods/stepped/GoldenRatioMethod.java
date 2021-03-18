@@ -40,7 +40,7 @@ public class GoldenRatioMethod extends AbstractSteppedOptimizationMethod {
             currSegment = new Segment(a, x2);
             x2 = x1;
             y2 = y1;
-            x1 = x2 - (x2 - a) * GOLDEN_RATIO;  // TODO ПИЗДЕЖ чистой воды
+            x1 = x2 - (x2 - a) * GOLDEN_RATIO;
             y1 = function.apply(x1);
         } else {
             currSegment = new Segment(x1, b);

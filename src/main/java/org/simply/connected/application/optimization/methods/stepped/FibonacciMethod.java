@@ -43,7 +43,7 @@ public class FibonacciMethod extends AbstractSteppedOptimizationMethod {
     }
 
     @Override
-    public boolean minimize() { // TODO ПИЗДЕЦ ТОЖЕ НЕ РАБОТАЕТ БЛЯ
+    public boolean minimize() {
         double a = currSegment.getFrom();
         double b = currSegment.getTo();
 

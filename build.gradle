@@ -16,5 +16,5 @@ javafx {
 }
 
 application {
-    mainClassName = 'Main'
+    mainClassName = 'org.simply.connected.application.Main'
 }

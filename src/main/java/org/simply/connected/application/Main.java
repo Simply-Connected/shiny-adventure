@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.simply.connected.application.model.Segment;
-import org.simply.connected.application.optimization.methods.stepped.ParabolicMethod;
+import org.simply.connected.application.optimization.methods.stepped.FibonacciMethod;
 import org.simply.connected.application.optimization.methods.stepped.SteppedOptimizationMethod;
 
 import java.util.function.Function;
@@ -27,12 +27,12 @@ public class Main extends Application {
             (x) -> -3 * x * Math.sin(3 * x / 4) + Math.exp(-2 * x);
 
     public static void main(String[] args) {
-        //launch(args);
-        SteppedOptimizationMethod method = new ParabolicMethod(FUN, 1e-5, new Segment(0d, 2 * Math.PI));
-        System.out.println(method.getCurrSegment());
-        while (method.minimize()) {
-            System.out.println(method.getCurrSegment());
-        }
+        launch(args);
+//        SteppedOptimizationMethod method = new FibonacciMethod(FUN, 1e-5, new Segment(0d, 2 * Math.PI));
+//        System.out.println(method.getCurrSegment());
+//        while (method.minimize()) {
+//            System.out.println(method.getCurrSegment());
+//        }
 
     }
 }
