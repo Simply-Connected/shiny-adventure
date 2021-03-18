@@ -42,7 +42,7 @@ public class ParabolicMethod extends AbstractSteppedOptimizationMethod {
         return x1 + x2 - getA1() / getA2();
     }
 
-    private Double getMinY() {
+    private double getMinY() {
         return function.apply(minX);
     }
 

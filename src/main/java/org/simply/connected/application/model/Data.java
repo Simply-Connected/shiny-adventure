@@ -32,4 +32,15 @@ public class Data {
     public double getMin() {
         return min;
     }
+
+    @Override
+    public String toString() {
+        return "[" +
+                String.format("%.5f", left) +
+                " ; " +
+                String.format("%.5f", min) +
+                " ; " +
+                String.format("%.5f", right) +
+                "]";
+    }
 }
