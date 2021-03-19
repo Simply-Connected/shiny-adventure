@@ -1,11 +1,9 @@
 package org.simply.connected.application.optimization.methods;
 
-import org.simply.connected.application.model.Segment;
-
 import java.util.function.UnaryOperator;
 
 public class DichotomyMethod extends AbstractOptimizationMethod {
-    public static final double DELTA = 1e-8;
+    private static final double DELTA = 5e-12;
     public DichotomyMethod(UnaryOperator<Double> function, double eps) {
         super(function, eps);
     }
@@ -15,8 +13,8 @@ public class DichotomyMethod extends AbstractOptimizationMethod {
         iterations.clear();
 
         while ((b - a) / 2 > eps) {
-            double x1 = midPoint(a, b) - DELTA / 2;
-            double x2 = midPoint(a, b) + DELTA / 2;
+            double x1 = midPoint(a, b) - DELTA;
+            double x2 = midPoint(a, b) + DELTA;
 
             double y1 = function.apply(x1);
             double y2 = function.apply(x2);

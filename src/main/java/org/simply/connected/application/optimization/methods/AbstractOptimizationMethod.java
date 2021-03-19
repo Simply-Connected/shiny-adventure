@@ -1,6 +1,6 @@
 package org.simply.connected.application.optimization.methods;
 
-import org.simply.connected.application.model.Data;
+import org.simply.connected.application.optimization.methods.model.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,5 +41,6 @@ public abstract class AbstractOptimizationMethod implements OptimizationMethod {
     protected double midPoint (double a, double b) {
         return (a + b) / 2;
     }
+
 }
 

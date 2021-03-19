@@ -1,13 +1,11 @@
 package org.simply.connected.application.optimization.methods;
 
-import org.simply.connected.application.model.Segment;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
 public class FibonacciMethod extends AbstractOptimizationMethod {
-    private final List<Integer> fibonacci = new ArrayList<>(List.of(1, 1, 2));
+    private List<Integer> fibonacci;
 
     public FibonacciMethod(UnaryOperator<Double> function, double eps) {
         super(function, eps);
@@ -47,6 +45,7 @@ public class FibonacciMethod extends AbstractOptimizationMethod {
     }
 
     private int calculateFibonacci(double a, double b, Double eps) {
+        fibonacci = new ArrayList<>(List.of(1, 1, 2));
         int i = 2;
         while (fibonacci.get(i) <= (b - a) / eps) {
             fibonacci.add(fibonacci.get(i) + fibonacci.get(i - 1));

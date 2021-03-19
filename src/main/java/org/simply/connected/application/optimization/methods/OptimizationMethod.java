@@ -1,6 +1,6 @@
 package org.simply.connected.application.optimization.methods;
 
-import org.simply.connected.application.model.Data;
+import org.simply.connected.application.optimization.methods.model.Data;
 
 import java.util.List;
 

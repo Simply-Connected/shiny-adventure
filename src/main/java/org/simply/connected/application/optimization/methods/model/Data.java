@@ -1,7 +1,6 @@
-package org.simply.connected.application.model;
+package org.simply.connected.application.optimization.methods.model;
 
 
-import java.util.List;
 /**
  * Information data class for iteration of Optimization algorithm
  * left <= min <= right
@@ -35,12 +34,6 @@ public class Data {
 
     @Override
     public String toString() {
-        return "[" +
-                String.format("%.5f", left) +
-                " ; " +
-                String.format("%.5f", min) +
-                " ; " +
-                String.format("%.5f", right) +
-                "]";
+        return String.format("[%.10f ; %.10f] min: <%.10f>", left, right, min);
     }
 }

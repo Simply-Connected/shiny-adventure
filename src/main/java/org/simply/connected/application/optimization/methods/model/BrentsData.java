@@ -1,4 +1,4 @@
-package org.simply.connected.application.model;
+package org.simply.connected.application.optimization.methods.model;
 
 public class BrentsData extends Data {
     private final boolean isParabolicIteration;

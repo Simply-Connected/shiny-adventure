@@ -1,8 +1,5 @@
 package org.simply.connected.application.optimization.methods;
 
-import org.simply.connected.application.model.TriplePoint;
-
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class ParabolicMethod extends AbstractOptimizationMethod {

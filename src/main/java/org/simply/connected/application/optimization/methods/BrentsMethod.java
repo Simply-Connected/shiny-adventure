@@ -1,6 +1,6 @@
 package org.simply.connected.application.optimization.methods;
 
-import org.simply.connected.application.model.BrentsData;
+import org.simply.connected.application.optimization.methods.model.BrentsData;
 
 import java.util.function.UnaryOperator;
 

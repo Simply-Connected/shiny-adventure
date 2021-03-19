@@ -1,7 +1,5 @@
 package org.simply.connected.application.optimization.methods;
 
-import org.simply.connected.application.model.Segment;
-
 import java.util.function.UnaryOperator;
 
 public class GoldenRatioMethod extends AbstractOptimizationMethod {
