@@ -2,7 +2,9 @@ package org.simply.connected.application.optimization.methods;
 
 import org.simply.connected.application.optimization.methods.model.BrentsData;
 
+import java.util.List;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 public class BrentsMethod extends AbstractOptimizationMethod {
     public BrentsMethod(UnaryOperator<Double> function, double eps) {
@@ -36,7 +38,10 @@ public class BrentsMethod extends AbstractOptimizationMethod {
                 u = ParabolicMethod.getMinX(x, w, v, fX, fW, fV);
             }
             if (u >= a + eps && u <= b - eps && Math.abs(u - x) < g / 2) {
-                addIteration(x, v, u, true);
+                // x, w, v are unordered
+                List<Double> sortedArgs = List.of(x, w, v).stream().sorted().collect(Collectors.toList());
+                addIteration(sortedArgs.get(0), sortedArgs.get(2), u, true);
+
                 d = Math.abs(u - x);
             } else {
                 if (x < (b - a) / 2 ) {

@@ -34,6 +34,6 @@ public class Data {
 
     @Override
     public String toString() {
-        return String.format("[%.10f ; %.10f] min: <%.10f>", left, right, min);
+        return String.format("[%.10f ; %.10f] min: < %.10f >", left, right, min);
     }
 }
