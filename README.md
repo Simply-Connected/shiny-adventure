@@ -1,6 +1,3 @@
-# shiny-adventure
-Optimization methods 1 lab
-=======
 # Optimization methods 1 lab
 ### Team _177013_
 ### Authors:
