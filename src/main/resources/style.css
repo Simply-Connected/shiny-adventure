@@ -1,0 +1,9 @@
+.button {
+    -fx-max-width: Infinity;
+    -fx-alignment: Center;
+}
+
+.chart {
+    -fx-max-width: Infinity;
+    -fx-max-height: Infinity;
+}
