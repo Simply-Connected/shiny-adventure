@@ -18,3 +18,9 @@ javafx {
 application {
     mainClassName = 'org.simply.connected.application.Main'
 }
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.gillius/jfxutils
+    implementation group: 'org.gillius', name: 'jfxutils', version: '1.0'
+
+}
