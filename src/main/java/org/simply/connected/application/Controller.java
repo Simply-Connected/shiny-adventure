@@ -6,17 +6,15 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import org.gillius.jfxutils.chart.ChartPanManager;
-import org.gillius.jfxutils.chart.JFXChartUtil;
 import org.simply.connected.application.optimization.methods.*;
+import org.simply.connected.application.optimization.methods.model.BrentsData;
 import org.simply.connected.application.optimization.methods.model.Data;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
 public class Controller implements Initializable {
@@ -43,103 +41,127 @@ public class Controller implements Initializable {
     public Text minXText;
     @FXML
     public Text minYText;
+    private static final Double eps = 1e-4;
+    private static final UnaryOperator<Double> function = (x) -> -3 * x * Math.sin(3 * x / 4) + Math.exp(-2 * x);
+    private static final Data segment = new Data(0, 0, 2 * Math.PI);
+    private static final BinaryOperator<Double> DRAW_EPS = (a, b) -> Math.max((b - a) / 1000, 1e-8);
+    private static final String DEFAULT_BUTTON_BACKGROUND = "derive(#353434,20%)";
+    private static final String SELECTED_BUTTON_BACKGROUND = "gray";
+    private final XYChart.Series<Double, Double> functionSeries = new XYChart.Series<>();
+    private final XYChart.Series<Double, Double> parabolaSeries = new XYChart.Series<>();
+    private final XYChart.Series<Double, Double> leftBorder = new XYChart.Series<>();
 
-    private Double eps = 1e-4;
-    private UnaryOperator<Double> function = (x) -> -3 * x * Math.sin(3 * x / 4) + Math.exp(-2 * x);
-    private Data segment = new Data(0, 0, 2 * Math.PI);
-
+    private Data currentSegment = new Data(0, 0, 2 * Math.PI);
     private List<Data> iterationData;
     private int iterationIndex;
     private boolean parabolic;
-    private XYChart.Series<Double, Double> leftBorder;
-    private XYChart.Series<Double, Double> rightBorder;
+    private final XYChart.Series<Double, Double> rightBorder = new XYChart.Series<>();
+
+    @FXML
+    public Button dichotomyButton;
+
+    @FXML
+    public Button goldenRationButton;
+
+    @FXML
+    public Button fibonacciButton;
+
+    @FXML
+    public Button parabolicButton;
+    @FXML
+    public Button brentButton;
+
+    private List<Button> methodButtons;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
-        ChartPanManager panner = new ChartPanManager(lineGraph);
-        //while pressing the left mouse button, you can drag to navigate
-        panner.setMouseFilter(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY) {
-                mouseEvent.consume();
-            }
-        });
-        panner.start();
+        methodButtons = List.of(
+                dichotomyButton,
+                goldenRationButton,
+                fibonacciButton,
+                parabolicButton,
+                brentButton
+        );
 
-        //holding the right mouse button will draw a rectangle to zoom to desired location TODO not working
-        JFXChartUtil.setupZooming(lineGraph, mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.SECONDARY)
-                mouseEvent.consume();
-        });
+        lineGraph.getData().add(parabolaSeries);
+        lineGraph.getData().add(functionSeries);
+        lineGraph.getData().add(leftBorder);
+        lineGraph.getData().add(rightBorder);
 
         plotGraph();
     }
 
     @FXML
-    public void choseDihotomy(final MouseEvent mouseEvent) {
+    public void choseDichotomy() {
+        changeMethodFocus(dichotomyButton);
+        parabolic = false;
         updateMethod(new DichotomyMethod(function, eps));
     }
 
     @FXML
-    public void choseGoldenRation(final MouseEvent mouseEvent) {
+    public void choseGoldenRation() {
+        changeMethodFocus(goldenRationButton);
+        parabolic = false;
         updateMethod(new GoldenRatioMethod(function, eps));
     }
 
     @FXML
-    public void choseFibonacci(final MouseEvent mouseEvent) {
+    public void choseFibonacci() {
+        changeMethodFocus(fibonacciButton);
+        parabolic = false;
         updateMethod(new FibonacciMethod(function, eps));
     }
 
     @FXML
-    public void choseParabolic(final MouseEvent mouseEvent) {
+    public void choseParabolic() {
+        changeMethodFocus(parabolicButton);
+        parabolic = true;
         updateMethod(new ParabolicMethod(function, eps));
-        parabolic = true;
     }
 
     @FXML
-    public void choseBrent(final MouseEvent mouseEvent) {
+    public void choseBrent() {
+        changeMethodFocus(brentButton);
+        parabolic = true;
         updateMethod(new BrentsMethod(function, eps));
-        parabolic = true;
     }
 
     @FXML
-    public void prev(final MouseEvent mouseEvent) {
+    public void prev() {
         iterationIndex--;
         drawSegment();
     }
 
     @FXML
-    public void next(final MouseEvent mouseEvent) {
+    public void next() {
         iterationIndex++;
         drawSegment();
     }
 
     private void plotGraph() {
-        lineGraph.getData().clear();
-        XYChart.Series<Double, Double> series = new XYChart.Series<>();
+        lineGraph.getData().forEach(it -> it.getData().clear());
 
         double minY = Double.MAX_VALUE;
-        double maxY = Double.MIN_VALUE;
+        double maxY = -Double.MAX_VALUE;
 
-        for (double x = segment.getLeft(); x < segment.getRight(); x += (segment.getRight() - segment.getLeft()) / 1000) {
+
+        double left = currentSegment.getLeft() - (currentSegment.getRight() - currentSegment.getLeft()) / 20;
+        double right = currentSegment.getRight() + (currentSegment.getRight() - currentSegment.getLeft()) / 20;
+
+        for (double x = left;
+             x < right;
+             x += DRAW_EPS.apply(left, right)) {
             double yValue = function.apply(x);
-            addPoint(series, x, yValue);
+            addPoint(functionSeries, x, yValue);
             minY = Double.min(minY, yValue);
             maxY = Double.max(maxY, yValue);
         }
 
-        double xShift = (segment.getRight() - segment.getLeft()) / 15;
-        setupAxis(xAxis, segment.getLeft() - xShift, segment.getRight() + xShift);
-        double yShift = (maxY - minY) / 10;
+        double yShift = (maxY - minY) / 15;
+
+        setupAxis(xAxis, left, right);
         setupAxis(yAxis, minY - yShift, maxY + yShift);
 
-
-        lineGraph.getData().add(series);
-        XYChart.Series<Double, Double> series1 = new XYChart.Series<>();
-        lineGraph.getData().add(series1);
-        leftBorder = new XYChart.Series<>();
-        rightBorder = new XYChart.Series<>();
-        lineGraph.getData().add(leftBorder);
-        lineGraph.getData().add(rightBorder);
     }
 
     private void addPoint(final XYChart.Series<Double, Double> series, final double x, final double y) {
@@ -149,9 +171,7 @@ public class Controller implements Initializable {
     private void setupAxis(NumberAxis axis, double left, double right) {
         axis.setLowerBound(left);
         axis.setUpperBound(right);
-        axis.setTickUnit((axis.getUpperBound() - axis.getLowerBound()) / 15);
-        axis.setMinorTickVisible(true);
-        axis.setMinorTickLength(axis.getTickUnit() / 10); // TODO not working
+        axis.setTickUnit((axis.getUpperBound() - axis.getLowerBound()) / 22);
     }
 
     private void updateMethod(OptimizationMethod method) {
@@ -165,22 +185,56 @@ public class Controller implements Initializable {
     private void drawSegment() {
         prevButton.setVisible(iterationIndex - 1 >= 0);
         nextButton.setVisible(iterationIndex + 1 < iterationData.size());
-        double l = iterationData.get(iterationIndex).getLeft();
-        double r = iterationData.get(iterationIndex).getRight();
+        Data currentData = iterationData.get(iterationIndex);
+
+        currentSegment = currentData;
+
+        plotGraph();
+
+        double l = currentData.getLeft();
+        double r = currentData.getRight();
 
         currentIterationText.setText(String.valueOf(iterationIndex + 1));
         leftPositionText.setText(String.valueOf(l));
         rightPositionText.setText(String.valueOf(r));
-        minXText.setText(String.valueOf(iterationData.get(iterationIndex).getMin()));
-        minYText.setText(String.valueOf(function.apply(iterationData.get(iterationIndex).getMin())));
+        minXText.setText(String.valueOf(currentData.getMin()));
+        minYText.setText(String.valueOf(function.apply(currentData.getMin())));
 
 
-        leftBorder.getData().clear();
-        rightBorder.getData().clear();
         addPoint(leftBorder, l, yAxis.getLowerBound());
         addPoint(leftBorder, l, yAxis.getUpperBound());
         addPoint(rightBorder, r, yAxis.getLowerBound());
         addPoint(rightBorder, r, yAxis.getUpperBound());
+
+
+        addPoint(parabolaSeries, Long.MIN_VALUE, Long.MIN_VALUE);
+        if (parabolic) {
+            if (currentData instanceof BrentsData) {
+                if (((BrentsData) currentData).isParabolicIteration()) {
+                    drawParabola(currentData);
+                }
+            } else {
+                drawParabola(currentData);
+            }
+        }
     }
 
+
+    private void drawParabola(Data currentData) {
+        parabolaSeries.getData().clear();
+        UnaryOperator<Double> parabola = ParabolicMethod.getParabolaWithin(
+                currentData.getLeft(), currentData.getMin(), currentData.getRight(), function
+        );
+        for (double x = currentSegment.getLeft();
+             x < currentSegment.getRight();
+             x += DRAW_EPS.apply(currentSegment.getLeft(), currentSegment.getRight())) {
+            double yValue = parabola.apply(x);
+            addPoint(parabolaSeries, x, yValue);
+        }
+    }
+
+    private void changeMethodFocus(Button selected) {
+        methodButtons.forEach(it -> it.setStyle(String.format("-fx-background-color: %s", DEFAULT_BUTTON_BACKGROUND)));
+        selected.setStyle(String.format("-fx-background-color: %s", SELECTED_BUTTON_BACKGROUND));
+    }
 }

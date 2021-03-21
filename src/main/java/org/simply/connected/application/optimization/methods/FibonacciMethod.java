@@ -15,6 +15,8 @@ public class FibonacciMethod extends AbstractOptimizationMethod {
     public double minimize(double a, double b) {
         iterations.clear();
 
+        addIteration(a, b, midPoint(a, b));
+
         int n = calculateFibonacci(a, b, eps);
 
         double x1 = a + (b - a) / fibonacci.get(n) * fibonacci.get(n - 2);
