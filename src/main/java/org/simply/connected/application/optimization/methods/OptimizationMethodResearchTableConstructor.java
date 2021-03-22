@@ -1,7 +1,5 @@
 package org.simply.connected.application.optimization.methods;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

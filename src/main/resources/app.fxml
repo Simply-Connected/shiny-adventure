@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.15" maxHeight="-Infinity" maxWidth="-Infinity"
+           minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000" prefWidth="1000" stylesheets="@style.css"
+           xmlns="http://javafx.com/javafx/15.0.1" fx:controller="org.simply.connected.application.Controller">
+    <VBox spacing="80">
+        <padding>
+            <Insets bottom="10.0" left="5.0" right="5.0" top="10.0"/>
+        </padding>
+        <VBox maxWidth="1.7976931348623157E308" prefHeight="87.0" prefWidth="147.0">
+            <Button fx:id="dichotomyButton" mnemonicParsing="false" onMouseClicked="#choseDichotomy" text="Дихотомия"/>
+            <Button fx:id="goldenRationButton" mnemonicParsing="false" onMouseClicked="#choseGoldenRation"
+                    text="Золотое сечение"/>
+            <Button fx:id="fibonacciButton" mnemonicParsing="false" onMouseClicked="#choseFibonacci" text="Фибоначчи"/>
+            <Button fx:id="parabolicButton" mnemonicParsing="false" onMouseClicked="#choseParabolic" text="Параболы"/>
+            <Button fx:id="brentButton" mnemonicParsing="false" onMouseClicked="#choseBrent"
+                    text="Комбинированный Брент"/>
+        </VBox>
+        <VBox spacing="10">
+            <HBox alignment="CENTER">
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Iteration count: "/>
+                <Text fx:id="iterationCountText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Iteration: "/>
+                <Text fx:id="currentIterationText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Left position: "/>
+                <Text fx:id="leftPositionText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Right position: "/>
+                <Text fx:id="rightPositionText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Min x: "/>
+                <Text fx:id="minXText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Min y: "/>
+                <Text fx:id="minYText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"/>
+            </HBox>
+        </VBox>
+        <HBox alignment="CENTER">
+            <Button fx:id="prevButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                    onMouseClicked="#prev" prefHeight="25.0" prefWidth="75.0" text="Prev" visible="false"/>
+            <Button fx:id="nextButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                    onMouseClicked="#next" prefHeight="25.0" prefWidth="75.0" text="Next" visible="false"/>
+        </HBox>
+    </VBox>
+    <LineChart fx:id="lineGraph" animated="false" createSymbols="false" legendVisible="false">
+        <xAxis>
+            <NumberAxis autoRanging="false" side="BOTTOM" fx:id="xAxis"/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis fx:id="yAxis" autoRanging="false" side="LEFT"/>
+        </yAxis>
+    </LineChart>
+</SplitPane>

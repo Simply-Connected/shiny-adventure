@@ -13,6 +13,8 @@ public class GoldenRatioMethod extends AbstractOptimizationMethod {
     public double minimize(double a, double b) {
         iterations.clear();
 
+        addIteration(a, b, midPoint(a, b));
+
         double x1 = b - GOLDEN_RATIO * (b - a);
         double x2 = a + GOLDEN_RATIO * (b - a);
         double y1 = function.apply(x1);

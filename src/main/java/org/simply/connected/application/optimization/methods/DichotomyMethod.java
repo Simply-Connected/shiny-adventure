@@ -11,6 +11,7 @@ public class DichotomyMethod extends AbstractOptimizationMethod {
     @Override
     public double minimize(double a, double b) {
         iterations.clear();
+        addIteration(a, b, midPoint(a, b));
 
         while ((b - a) / 2 > eps) {
             double x1 = midPoint(a, b) - DELTA;
