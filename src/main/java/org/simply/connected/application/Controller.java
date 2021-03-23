@@ -6,6 +6,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import org.simply.connected.application.optimization.methods.*;
 import org.simply.connected.application.optimization.methods.model.BrentsData;
@@ -50,12 +52,13 @@ public class Controller implements Initializable {
     private final XYChart.Series<Double, Double> functionSeries = new XYChart.Series<>();
     private final XYChart.Series<Double, Double> parabolaSeries = new XYChart.Series<>();
     private final XYChart.Series<Double, Double> leftBorder = new XYChart.Series<>();
+    private final XYChart.Series<Double, Double> rightBorder = new XYChart.Series<>();
+    private final XYChart.Series<Double, Double> minPoint = new XYChart.Series<>();
 
     private Data currentSegment = new Data(0, 0, 2 * Math.PI);
     private List<Data> iterationData;
     private int iterationIndex;
     private boolean parabolic;
-    private final XYChart.Series<Double, Double> rightBorder = new XYChart.Series<>();
 
     @FXML
     public Button dichotomyButton;
@@ -87,6 +90,7 @@ public class Controller implements Initializable {
         lineGraph.getData().add(functionSeries);
         lineGraph.getData().add(leftBorder);
         lineGraph.getData().add(rightBorder);
+        lineGraph.getData().add(minPoint);
 
         plotGraph();
     }
@@ -168,10 +172,16 @@ public class Controller implements Initializable {
         series.getData().add(new XYChart.Data<>(x, y));
     }
 
+    private void addCircle(final XYChart.Series<Double, Double> series, final double x, final double y) {
+        XYChart.Data<Double, Double> circleData = new XYChart.Data<>(x, y);
+        circleData.setNode(new Circle(5, Color.RED));
+        series.getData().add(circleData);
+    }
+
     private void setupAxis(NumberAxis axis, double left, double right) {
         axis.setLowerBound(left);
         axis.setUpperBound(right);
-        axis.setTickUnit((axis.getUpperBound() - axis.getLowerBound()) / 22);
+        axis.setTickUnit((right - left) / 22);
     }
 
     private void updateMethod(OptimizationMethod method) {
@@ -205,6 +215,7 @@ public class Controller implements Initializable {
         addPoint(leftBorder, l, yAxis.getUpperBound());
         addPoint(rightBorder, r, yAxis.getLowerBound());
         addPoint(rightBorder, r, yAxis.getUpperBound());
+        addCircle(minPoint, currentData.getMin(), function.apply(currentData.getMin()));
 
 
         addPoint(parabolaSeries, Long.MIN_VALUE, Long.MIN_VALUE);
