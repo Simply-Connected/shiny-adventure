@@ -1,11 +1,11 @@
 package org.simply.connected.application.optimization.methods.model;
 
-public class BrentsData extends Data {
+public class BrentsData extends TernaryData {
     private final boolean isParabolicIteration;
 
-    public BrentsData(double a, double b, double c, boolean f) {
-        super(a, b, c);
-        isParabolicIteration = f;
+    public BrentsData(double a, double min, double c, double x1, double x2, boolean parabolic) {
+        super(a, min, c, x1 , x2);
+        isParabolicIteration = parabolic;
     }
 
     public boolean isParabolicIteration() {
