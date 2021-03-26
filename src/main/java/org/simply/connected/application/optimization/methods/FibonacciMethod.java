@@ -1,5 +1,8 @@
 package org.simply.connected.application.optimization.methods;
 
+import org.simply.connected.application.optimization.methods.model.BrentsData;
+import org.simply.connected.application.optimization.methods.model.TernaryData;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -11,11 +14,14 @@ public class FibonacciMethod extends AbstractOptimizationMethod {
         super(function, eps);
     }
 
+    private void addIteration(double left, double right, double min, double x1, double x2) {
+        iterations.add(new TernaryData(left, min, right, x1, x2));
+    }
+
     @Override
     public double minimize(double a, double b) {
         iterations.clear();
 
-        addIteration(a, b, midPoint(a, b));
 
         int n = calculateFibonacci(a, b, eps);
 
@@ -24,6 +30,8 @@ public class FibonacciMethod extends AbstractOptimizationMethod {
 
         double y1 = function.apply(x1);
         double y2 = function.apply(x2);
+
+        addIteration(a, b, midPoint(a, b), x1, x2);
 
         while (n-- > 0) {
             if (y1 < y2) {
@@ -40,7 +48,7 @@ public class FibonacciMethod extends AbstractOptimizationMethod {
                 y2 = function.apply(x2);
             }
 
-            addIteration(a, b, midPoint(a, b));
+            addIteration(a, b, midPoint(a, b), x1, x2);
         }
 
         return midPoint(a, b);
