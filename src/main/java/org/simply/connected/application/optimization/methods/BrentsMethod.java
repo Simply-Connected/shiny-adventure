@@ -11,8 +11,8 @@ public class BrentsMethod extends AbstractOptimizationMethod {
         super(function, eps);
     }
 
-    private void addIteration(double left, double right, double min, boolean isParabolic) {
-        iterations.add(new BrentsData(left, min, right, isParabolic));
+    private void addIteration(double left, double right, double min, double x1, double x2, boolean isParabolic) {
+        iterations.add(new BrentsData(left, min, right, x1, x2, isParabolic));
     }
 
     @Override
@@ -40,8 +40,7 @@ public class BrentsMethod extends AbstractOptimizationMethod {
             if (u >= a + eps && u <= b - eps && Math.abs(u - x) < g / 2) {
                 // x, w, v are unordered
                 List<Double> sortedArgs = List.of(x, w, v).stream().sorted().collect(Collectors.toList());
-                addIteration(sortedArgs.get(0), sortedArgs.get(2), u, true);
-
+                addIteration(sortedArgs.get(0), sortedArgs.get(2), u, u, u, true);
                 d = Math.abs(u - x);
             } else {
                 if (x < (b - a) / 2 ) {
@@ -51,7 +50,7 @@ public class BrentsMethod extends AbstractOptimizationMethod {
                     u = x - GoldenRatioMethod.GOLDEN_RATIO * (x - a);
                     d = x - a;
                 }
-                addIteration(a, b, u, false);
+                addIteration(a, b, x, Math.min(u, x), Math.max(u, x), false);
             }
             if (Math.abs(u - x) < eps) {
                 u = x + Math.signum(u - x) * eps;
