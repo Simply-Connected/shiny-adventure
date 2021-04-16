@@ -13,13 +13,13 @@ import static org.simply.connected.application.optimization.methods.multivariate
 public class ConjugateGradientMethod extends AbstractMultivariateOptimizationMethod {
 
 
-    protected ConjugateGradientMethod(Function<Vector, Double> function,
+    public ConjugateGradientMethod(Function<Vector, Double> function,
                                       double eps,
                                       BiFunction<UnaryOperator<Double>, Double, OptimizationMethod> methodFactory) {
         super(function, eps, methodFactory);
     }
 
-    protected ConjugateGradientMethod(Function<Vector, Double> function, double eps) {
+    public ConjugateGradientMethod(Function<Vector, Double> function, double eps) {
         super(function, eps);
     }
 

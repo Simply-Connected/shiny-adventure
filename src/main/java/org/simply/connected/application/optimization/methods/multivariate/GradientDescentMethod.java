@@ -9,7 +9,7 @@ import static org.simply.connected.application.optimization.methods.multivariate
 public class GradientDescentMethod extends AbstractMultivariateOptimizationMethod {
     private double alpha;
 
-    protected GradientDescentMethod(Function<Vector, Double> function, double eps, double alpha) {
+    public GradientDescentMethod(Function<Vector, Double> function, double eps, double alpha) {
         super(function, eps);
         this.alpha = alpha;
     }

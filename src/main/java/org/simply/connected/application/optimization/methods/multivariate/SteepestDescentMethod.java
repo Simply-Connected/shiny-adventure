@@ -11,11 +11,11 @@ import static org.simply.connected.application.optimization.methods.multivariate
 
 public class SteepestDescentMethod extends AbstractMultivariateOptimizationMethod {
 
-    protected SteepestDescentMethod(Function<Vector, Double> function, double eps) {
+    public SteepestDescentMethod(Function<Vector, Double> function, double eps) {
         super(function, eps);
     }
 
-    protected SteepestDescentMethod(Function<Vector, Double> function,
+    public SteepestDescentMethod(Function<Vector, Double> function,
                                     double eps,
                                     BiFunction<UnaryOperator<Double>, Double, OptimizationMethod> methodFactory) {
         super(function, eps, methodFactory);
