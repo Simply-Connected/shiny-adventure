@@ -24,9 +24,10 @@ public class ConjugateGradientMethod extends AbstractMultivariateOptimizationMet
     }
 
     @Override
-    public Vector minimize(Vector x) {
+    public Vector minimize(final Vector initialPoint) {
         iterationData.clear();
 
+        Vector x = initialPoint;
         boolean isQuadratic = false;
         if (function instanceof QuadraticFunction) {
             isQuadratic = true;

@@ -22,9 +22,10 @@ public class SteepestDescentMethod extends AbstractMultivariateOptimizationMetho
     }
 
     @Override
-    public Vector minimize(Vector x) {
+    public Vector minimize(final Vector initalPoint) {
         iterationData.clear();
 
+        Vector x = initalPoint;
         double fX = function.apply(x);
         Function<Vector, Vector> gradient = getGradient();
         Vector p = negate(gradient.apply(x));

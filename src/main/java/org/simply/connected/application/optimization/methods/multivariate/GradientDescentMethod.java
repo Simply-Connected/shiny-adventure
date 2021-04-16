@@ -24,9 +24,10 @@ public class GradientDescentMethod extends AbstractMultivariateOptimizationMetho
 
     @SuppressWarnings("SuspiciousNameCombination")
     @Override
-    public Vector minimize(Vector x) {
+    public Vector minimize(final Vector initialPoint) {
         iterationData.clear();
 
+        Vector x = initialPoint;
         double fX = function.apply(x);
         double curAlpha = alpha;
         Function<Vector, Vector> gradient = getGradient();
