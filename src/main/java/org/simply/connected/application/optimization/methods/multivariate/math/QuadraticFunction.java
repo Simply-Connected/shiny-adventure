@@ -1,6 +1,5 @@
 package org.simply.connected.application.optimization.methods.multivariate.math;
 
-import java.util.function.DoubleBinaryOperator;
 import java.util.function.Function;
 
 public class QuadraticFunction implements Function<Vector, Double> {
@@ -8,7 +7,7 @@ public class QuadraticFunction implements Function<Vector, Double> {
 
     private final Vector b;
     private final double c;
-    public QuadraticFunction(Matrix a, Vector b, double c) {
+    public QuadraticFunction(BaseMatrix a, Vector b, double c) {
         this.a = a;
         this.b = b;
         this.c = c;
