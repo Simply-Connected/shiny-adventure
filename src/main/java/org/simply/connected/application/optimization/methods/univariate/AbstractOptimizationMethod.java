@@ -1,6 +1,6 @@
-package org.simply.connected.application.optimization.methods;
+package org.simply.connected.application.optimization.methods.univariate;
 
-import org.simply.connected.application.optimization.methods.model.Data;
+import org.simply.connected.application.optimization.methods.univariate.model.Data;
 
 import java.util.ArrayList;
 import java.util.List;

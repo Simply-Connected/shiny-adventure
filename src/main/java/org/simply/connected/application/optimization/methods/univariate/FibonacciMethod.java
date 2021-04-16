@@ -1,7 +1,6 @@
-package org.simply.connected.application.optimization.methods;
+package org.simply.connected.application.optimization.methods.univariate;
 
-import org.simply.connected.application.optimization.methods.model.BrentsData;
-import org.simply.connected.application.optimization.methods.model.TernaryData;
+import org.simply.connected.application.optimization.methods.univariate.model.TernaryData;
 
 import java.util.ArrayList;
 import java.util.List;

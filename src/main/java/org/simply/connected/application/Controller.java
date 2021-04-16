@@ -9,9 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import org.simply.connected.application.optimization.methods.*;
-import org.simply.connected.application.optimization.methods.model.BrentsData;
-import org.simply.connected.application.optimization.methods.model.Data;
+import org.simply.connected.application.optimization.methods.univariate.*;
+import org.simply.connected.application.optimization.methods.univariate.model.BrentsData;
+import org.simply.connected.application.optimization.methods.univariate.model.Data;
 
 import java.net.URL;
 import java.util.List;

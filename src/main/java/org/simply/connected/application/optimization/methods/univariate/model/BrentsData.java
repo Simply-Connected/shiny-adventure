@@ -1,4 +1,4 @@
-package org.simply.connected.application.optimization.methods.model;
+package org.simply.connected.application.optimization.methods.univariate.model;
 
 public class BrentsData extends TernaryData {
     private final boolean isParabolicIteration;

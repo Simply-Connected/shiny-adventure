@@ -1,4 +1,4 @@
-package org.simply.connected.application.optimization.methods;
+package org.simply.connected.application.optimization.methods.univariate;
 
 import java.util.function.UnaryOperator;
 
