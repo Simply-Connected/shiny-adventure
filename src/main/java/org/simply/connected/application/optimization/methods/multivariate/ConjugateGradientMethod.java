@@ -38,8 +38,7 @@ public class ConjugateGradientMethod extends AbstractMultivariateOptimizationMet
         Vector Gx = gradient.apply(x);
         Vector p = negate(Gx);
 
-        int i = 1;
-        while (norm(p) >= EPS) {
+        for (int i = 1; norm(p) >= EPS && i <= MAX_ITERATIONS; i++) {
             double curAlpha;
             Vector Ap;
             Vector GxNext = null;
@@ -59,12 +58,11 @@ public class ConjugateGradientMethod extends AbstractMultivariateOptimizationMet
                 GxNext = gradient.apply(x);
             }
             double beta = 0;
-            if (i % arity == 0) {
+            if (i % arity != 0) {
                 beta = normSquare(GxNext) / normSquare(Gx);
             }
             p = sum(negate(GxNext), product(beta, p));
             Gx = GxNext;
-            i++;
         }
         addIteration(x, p, 0);
         return x;

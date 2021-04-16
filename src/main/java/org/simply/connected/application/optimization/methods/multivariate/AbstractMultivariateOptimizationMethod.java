@@ -17,6 +17,8 @@ import static org.simply.connected.application.optimization.methods.multivariate
 import static org.simply.connected.application.optimization.methods.multivariate.math.Math.sum;
 
 public abstract class AbstractMultivariateOptimizationMethod implements MultivariateOptimizationMethod {
+    protected static final int MAX_ITERATIONS = 2000;
+
     protected BiFunction<UnaryOperator<Double>, Double, OptimizationMethod> methodFactory = null;
 
     protected final List<MultivariateData> iterationData;
@@ -85,6 +87,6 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
         } else  {
             method = methodFactory.apply(univariateFun, EPS);
         }
-        return method.minimize(0,  1 / EPS);
+        return method.minimize(0,  1000); // TODO overflow problems
     }
 }

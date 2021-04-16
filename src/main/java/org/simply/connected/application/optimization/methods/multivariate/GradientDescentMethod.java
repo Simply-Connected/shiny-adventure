@@ -35,16 +35,15 @@ public class GradientDescentMethod extends AbstractMultivariateOptimizationMetho
 
         addIteration(x, p,  curAlpha);
 
-        while (norm(p) >= EPS) {
+        for (int it = 0; norm(p) >= EPS && it < MAX_ITERATIONS; it++) {
             Vector y = sum(x, product(curAlpha / norm(p), p));
             double fY = function.apply(y);
             while(fY >= fX) {
                 curAlpha /= 2;
                 y = sum(x, product(curAlpha / norm(p), p));
                 fY = function.apply(y);
-                addIteration(x, p, curAlpha);
+             //   addIteration(x, p, curAlpha);
             }
-
             x = y;
             p = negate(gradient.apply(x));
             fX = fY;
