@@ -30,6 +30,14 @@ public class Math {
         return IntStream.range(0, a.getArity()).mapToDouble(it -> a.get(it) * b.get(it)).sum();
     }
 
+    public static Vector normalize(Vector v) {
+        return product(1 / norm(v), v);
+    }
+
+    public static double distance(Vector a, Vector b) {
+        return norm(sum(a, negate(b)));
+    }
+
     public static Vector sum(Vector a, Vector b) {
         validateArity(a, b);
         return new Vector(
