@@ -1,7 +1,6 @@
 package org.simply.connected.application.optimization.methods.multivariate;
 
 import org.simply.connected.application.optimization.methods.multivariate.math.Vector;
-import org.simply.connected.application.optimization.methods.univariate.BrentsMethod;
 import org.simply.connected.application.optimization.methods.univariate.OptimizationMethod;
 
 import java.util.function.BiFunction;
