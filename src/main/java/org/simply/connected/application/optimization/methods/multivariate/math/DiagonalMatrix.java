@@ -21,7 +21,7 @@ public class DiagonalMatrix implements Matrix {
     @Override
     public List<Vector> getData() {
         return IntStream.range(0, data.size()).mapToObj( it ->
-                new Vector(new ArrayList<>(Collections.nCopies(data.size(), 0d)).set(it, data.get(it)))
+                new Vector(new ArrayList<>(Collections.nCopies(data.size(), 0d)).set(it, data.get(it))) //TODO performance pososal no mne pohui ya lublu obmazyvat'sya StreamAPI i drochit'
         ).collect(Collectors.toList());
     }
 
