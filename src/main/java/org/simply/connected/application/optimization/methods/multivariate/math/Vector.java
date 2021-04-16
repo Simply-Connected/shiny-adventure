@@ -31,4 +31,9 @@ public class Vector {
     public int getArity() {
         return data.size();
     }
+
+    @Override
+    public String toString() {
+        return "[" + data.stream().map(String::valueOf).collect(Collectors.joining(", ")) + "]";
+    }
 }
