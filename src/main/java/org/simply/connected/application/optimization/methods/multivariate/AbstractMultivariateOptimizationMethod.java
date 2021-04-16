@@ -24,6 +24,7 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
     protected Function<Vector, Double> function;
 
     protected double EPS;
+
     protected AbstractMultivariateOptimizationMethod(Function<Vector, Double> function, double eps) {
         this.function = function;
         EPS = eps;
@@ -36,7 +37,6 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
         this(function, eps);
         this.methodFactory = methodFactory;
     }
-
     abstract public Vector minimize(Vector x);
 
     public Function<Vector, Double> getFunction() {
@@ -57,6 +57,14 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
 
     public List<MultivariateData> getIterationData() {
         return iterationData;
+    }
+
+    public BiFunction<UnaryOperator<Double>, Double, OptimizationMethod> getMethodFactory() {
+        return methodFactory;
+    }
+
+    public void setMethodFactory(BiFunction<UnaryOperator<Double>, Double, OptimizationMethod> methodFactory) {
+        this.methodFactory = methodFactory;
     }
 
     protected void addIteration(Vector x, Vector p, double alpha) {
