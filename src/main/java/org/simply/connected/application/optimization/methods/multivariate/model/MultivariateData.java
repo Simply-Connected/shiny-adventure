@@ -24,4 +24,9 @@ public class MultivariateData {
     public double getAlpha() {
         return alpha;
     }
+
+    @Override
+    public String toString() {
+        return String.format("{%s %s %.6f}", x, p, alpha);
+    }
 }
