@@ -15,6 +15,7 @@ public class BrentsMethod extends AbstractOptimizationMethod {
         iterations.add(new BrentsData(left, min, right, x1, x2, isParabolic));
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public double minimize(double a, double b) {
         iterations.clear();
@@ -34,10 +35,12 @@ public class BrentsMethod extends AbstractOptimizationMethod {
         while ( ((b - a) / 2) > eps) {
             double g = e;
             e = d;
+            boolean isParabolic = false;
             if (distinct(x, w, v) && distinct(fX, fW, fV)) {
                 u = ParabolicMethod.getMinX(x, w, v, fX, fW, fV);
+                isParabolic = true;
             }
-            if (u >= a + eps && u <= b - eps && Math.abs(u - x) < g / 2) {
+            if (isParabolic && u >= a + eps && u <= b - eps && Math.abs(u - x) < g / 2) {
                 // x, w, v are unordered
                 List<Double> sortedArgs = List.of(x, w, v).stream().sorted().collect(Collectors.toList());
                 addIteration(sortedArgs.get(0), sortedArgs.get(2), u, u, u, true);
