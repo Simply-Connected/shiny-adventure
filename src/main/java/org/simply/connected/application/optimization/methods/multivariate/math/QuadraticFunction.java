@@ -4,13 +4,16 @@ import java.util.function.Function;
 
 public class QuadraticFunction implements Function<Vector, Double> {
     private final Matrix a;
-
     private final Vector b;
     private final double c;
+
+    private final double minVal, maxVal;
     public QuadraticFunction(Matrix a, Vector b, double c) {
         this.a = a;
         this.b = b;
         this.c = c;
+        minVal = a.getMin();
+        maxVal = a.getMax();
     }
 
     @Override
@@ -28,5 +31,13 @@ public class QuadraticFunction implements Function<Vector, Double> {
 
     public double getC() {
         return c;
+    }
+
+    public double getMinEigenValue() {
+        return minVal;
+    }
+
+    public double getMaxEigenValue() {
+        return maxVal;
     }
 }

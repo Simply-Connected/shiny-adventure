@@ -3,7 +3,9 @@ package org.simply.connected.application.optimization.methods.multivariate.math;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 public class BaseMatrix implements Matrix {
@@ -35,6 +37,21 @@ public class BaseMatrix implements Matrix {
     public Vector get(int i) {
         return data.get(i);
     }
+
+    @Override
+    public double getMin() {
+        return getDataDoubleStream().min().orElseThrow(IllegalStateException::new);
+    }
+
+    @Override
+    public double getMax() {
+        return getDataDoubleStream().max().orElseThrow(IllegalStateException::new);
+    }
+
+    private DoubleStream getDataDoubleStream() {
+        return data.stream().flatMapToDouble(r -> r.getData().stream().mapToDouble(Double::doubleValue));
+    }
+
 
     public Map.Entry<Integer, Integer> getArity() {
         return Map.entry(data.size() , data.get(0).getArity());

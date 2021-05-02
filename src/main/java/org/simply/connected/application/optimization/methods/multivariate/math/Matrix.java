@@ -9,4 +9,7 @@ public interface Matrix {
     double get(int i, int j);
 
     Vector get(int i);
+
+    double getMin();
+    double getMax();
 }
