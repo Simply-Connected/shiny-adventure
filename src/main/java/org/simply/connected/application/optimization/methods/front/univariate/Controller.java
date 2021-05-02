@@ -1,4 +1,4 @@
-package org.simply.connected.application;
+package org.simply.connected.application.optimization.methods.front.univariate;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

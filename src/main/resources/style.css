@@ -62,7 +62,7 @@
     -fx-foreground-color: #353434;
 }
 
-.button {
+.button, .toggle-button {
     -fx-padding: 5 22 5 22;
     -fx-border-color: #353434;
     -fx-border-width: 0;
@@ -72,27 +72,31 @@
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
 
-.button:hover {
+.button:hover, .toggle-button:hover {
     -fx-background-color: #3a3a3a;
 }
 
-.button:pressed, .button:default:hover:pressed {
+.button:pressed, .button:default:hover:pressed, .toggle-button:default:hover:pressed {
     -fx-background-color: #bdbcbc;
     -fx-text-fill: black;
 }
 
-.button:disabled, .button:default:disabled {
+.toggle-button:selected {
+    -fx-background-color: gray;
+}
+
+.button:disabled, .button:default:disabled, .toggle-button:disabled, .toggle-button:default:disabled {
     -fx-opacity: 0.4;
     -fx-background-color: #353434;
     -fx-text-fill: white;
 }
 
-.button:default {
+.button:default, .toggle-button:default {
     -fx-background-color: -fx-focus-color;
     -fx-text-fill: #ffffff;
 }
 
-.button:default:hover {
+.button:default:hover, .toggle-button:default:hover {
     -fx-background-color: derive(-fx-focus-color,30%);
 }
 
@@ -103,4 +107,18 @@
 .split-pane {
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 11pt;
+}
+
+.text-field, .combo-box {
+    -fx-background-color: derive(#353434,20%);
+    -fx-text-fill: white;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: #575758;
+    -fx-text-fill: white;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: gray;
 }
