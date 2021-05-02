@@ -13,13 +13,13 @@ import static org.simply.connected.application.optimization.methods.multivariate
 public class ConjugateGradientMethod extends AbstractMultivariateOptimizationMethod {
 
 
-    public ConjugateGradientMethod(Function<Vector, Double> function,
+    public ConjugateGradientMethod(QuadraticFunction function,
                                       double eps,
                                       BiFunction<UnaryOperator<Double>, Double, OptimizationMethod> methodFactory) {
         super(function, eps, methodFactory);
     }
 
-    public ConjugateGradientMethod(Function<Vector, Double> function, double eps) {
+    public ConjugateGradientMethod(QuadraticFunction function, double eps) {
         super(function, eps);
     }
 
@@ -28,10 +28,6 @@ public class ConjugateGradientMethod extends AbstractMultivariateOptimizationMet
         iterationData.clear();
 
         Vector x = initialPoint;
-        boolean isQuadratic = false;
-        if (function instanceof QuadraticFunction) {
-            isQuadratic = true;
-        }
 
         int arity = x.getArity();
         Function<Vector, Vector> gradient = getGradient();
@@ -39,24 +35,13 @@ public class ConjugateGradientMethod extends AbstractMultivariateOptimizationMet
         Vector p = negate(Gx);
 
         for (int i = 1; norm(p) >= EPS && i <= MAX_ITERATIONS; i++) {
-            double curAlpha;
-            Vector Ap;
-            Vector GxNext = null;
-
-            if (isQuadratic) {
-                Ap = product(((QuadraticFunction) function).getA(), p);
-                curAlpha = normSquare(Gx) / dotProduct(Ap, p);
-                GxNext = sum(Gx, product(curAlpha, Ap));
-            } else {
-                curAlpha = getAlpha(x, p);
-            }
+            Vector Ap = product(function.getA(), p);
+            double curAlpha = normSquare(Gx) / dotProduct(Ap, p);
+            Vector GxNext = sum(Gx, product(curAlpha, Ap));
 
             addIteration(x, p, curAlpha);
 
             x = sum(x, product(curAlpha, p));
-            if (!isQuadratic) {
-                GxNext = gradient.apply(x);
-            }
             double beta = 0;
             if (i % arity != 0) {
                 beta = normSquare(GxNext) / normSquare(Gx);

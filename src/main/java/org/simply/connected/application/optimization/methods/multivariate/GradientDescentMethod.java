@@ -1,5 +1,6 @@
 package org.simply.connected.application.optimization.methods.multivariate;
 
+import org.simply.connected.application.optimization.methods.multivariate.math.QuadraticFunction;
 import org.simply.connected.application.optimization.methods.multivariate.math.Vector;
 
 import java.util.function.Function;
@@ -7,19 +8,9 @@ import java.util.function.Function;
 import static org.simply.connected.application.optimization.methods.multivariate.math.Math.*;
 
 public class GradientDescentMethod extends AbstractMultivariateOptimizationMethod {
-    private double alpha;
 
-    public GradientDescentMethod(Function<Vector, Double> function, double eps, double alpha) {
+    public GradientDescentMethod(QuadraticFunction function, double eps) {
         super(function, eps);
-        this.alpha = alpha;
-    }
-
-    public double getAlpha() {
-        return alpha;
-    }
-
-    public void setAlpha(double alpha) {
-        this.alpha = alpha;
     }
 
     @SuppressWarnings("SuspiciousNameCombination")
@@ -29,7 +20,7 @@ public class GradientDescentMethod extends AbstractMultivariateOptimizationMetho
 
         Vector x = initialPoint;
         double fX = function.apply(x);
-        double curAlpha = alpha;
+        double curAlpha = 2d / (function.getMinEigenValue() + function.getMaxEigenValue());
         Function<Vector, Vector> gradient = getGradient();
         Vector p = negate(gradient.apply(x));
 

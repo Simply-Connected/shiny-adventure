@@ -23,17 +23,17 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
 
     protected final List<MultivariateData> iterationData;
 
-    protected Function<Vector, Double> function;
+    protected QuadraticFunction function;
 
     protected double EPS;
 
-    protected AbstractMultivariateOptimizationMethod(Function<Vector, Double> function, double eps) {
+    protected AbstractMultivariateOptimizationMethod(QuadraticFunction function, double eps) {
         this.function = function;
         EPS = eps;
         iterationData = new ArrayList<>();
     }
 
-    protected AbstractMultivariateOptimizationMethod(Function<Vector, Double> function,
+    protected AbstractMultivariateOptimizationMethod(QuadraticFunction function,
                                     double eps,
                                     BiFunction<UnaryOperator<Double>, Double, OptimizationMethod> methodFactory) {
         this(function, eps);
@@ -45,7 +45,7 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
         return function;
     }
 
-    public void setFunction(Function<Vector, Double> function) {
+    public void setFunction(QuadraticFunction function) {
         this.function = function;
     }
 
@@ -74,19 +74,17 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
     }
 
     protected Function<Vector, Vector> getGradient() {
-        if (function instanceof QuadraticFunction)
-            return Math.gradient((QuadraticFunction) function);
-        return Math.gradient(function, EPS);
+        return Math.gradient(function);
     }
 
-    protected double getAlpha(Vector x, Vector p) {
+    protected double getStep(Vector x, Vector p) {
         UnaryOperator<Double> univariateFun = alpha -> function.apply(sum(x, product(alpha, p)));
         OptimizationMethod method;
         if (methodFactory == null) {
-            method = new BrentsMethod(univariateFun, EPS);
+            method = new BrentsMethod(univariateFun, 10 * EPS);
         } else  {
             method = methodFactory.apply(univariateFun, EPS);
         }
-        return method.minimize(0,  1000); // TODO overflow problems
+        return method.minimize(0,  2d / function.getMaxEigenValue());
     }
 }
