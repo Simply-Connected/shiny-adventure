@@ -85,6 +85,6 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
         } else  {
             method = methodFactory.apply(univariateFun, EPS);
         }
-        return method.minimize(0,  2d / function.getMaxEigenValue());
+        return method.minimize(0,  1000);
     }
 }
