@@ -16,8 +16,8 @@ public class Vector {
     public Vector(List<Double> data) {
         this.data = data;
     }
-    public Vector(int arity, double value) {
-        this.data = new ArrayList<>(Collections.nCopies(arity, value));
+    public static Vector of(int arity, double value) {
+        return new Vector(new ArrayList<>(Collections.nCopies(arity, value)));
     }
 
     public List<Double> getData() {
