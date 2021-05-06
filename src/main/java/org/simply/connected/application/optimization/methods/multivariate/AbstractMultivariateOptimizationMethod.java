@@ -17,7 +17,7 @@ import static org.simply.connected.application.optimization.methods.multivariate
 import static org.simply.connected.application.optimization.methods.multivariate.math.Math.sum;
 
 public abstract class AbstractMultivariateOptimizationMethod implements MultivariateOptimizationMethod {
-    protected static final int MAX_ITERATIONS = 2000;
+    protected static final int MAX_ITERATIONS = 1000;
 
     protected BiFunction<UnaryOperator<Double>, Double, OptimizationMethod> methodFactory = null;
 
