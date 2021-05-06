@@ -66,6 +66,10 @@ public class Controller implements Initializable {
     public TextField initialYText;
     @FXML
     public ToggleButton levelLinesButton;
+    @FXML
+    public NumberAxis xAxis;
+    @FXML
+    public NumberAxis yAxis;
 
 
     private static final String DEFAULT_BUTTON_BACKGROUND = "derive(#353434,20%)";
@@ -245,6 +249,11 @@ public class Controller implements Initializable {
         levelLines.clear();
         double shift = norm(sum(center, negate(new Vector(initX, initY))));
 
+        double minX = center.get(0);
+        double maxX = center.get(0);
+        double minY = center.get(1);
+        double maxY = center.get(1);
+
         for (double rad = 0.1; rad < shift; rad += shift / 20) {
             double h = function.apply(sum(center, new Vector(0d, rad)));
             double gradesPerStep = 0.5;
@@ -261,10 +270,27 @@ public class Controller implements Initializable {
                 Vector newPoint = sum(product(r, normal), center);
                 addPoint(level, newPoint.get(0), newPoint.get(1));
                 angle += Math.PI * 2 / 360 * gradesPerStep;
+
+                minX = Math.min(minX, newPoint.get(0));
+                maxX = Math.max(maxX, newPoint.get(0));
+                minY = Math.min(minY, newPoint.get(1));
+                maxY = Math.max(maxY, newPoint.get(1));
             }
             levelLines.add(level);
         }
         redrawLevelLines();
+        double rad = Math.max(maxX - minX, maxY - minY) / 2;
+        rad *= 1.1;
+        double centerX = (maxX + minX) / 2;
+        double centerY = (maxY + minY) / 2;
+        setupAxis(xAxis, centerX - rad, centerX + rad);
+        setupAxis(yAxis, centerY - rad, centerY + rad);
+    }
+
+    private void setupAxis(NumberAxis axis, double left, double right) {
+        axis.setLowerBound(left);
+        axis.setUpperBound(right);
+        axis.setTickUnit((right - left) / 22);
     }
 
     private void updateMethod(MultivariateOptimizationMethod method) {

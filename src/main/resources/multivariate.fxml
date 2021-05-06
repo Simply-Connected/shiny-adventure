@@ -75,10 +75,10 @@
       <center>
           <LineChart fx:id="lineGraph" animated="false" axisSortingPolicy="NONE" createSymbols="false" legendVisible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
               <xAxis>
-                  <NumberAxis side="BOTTOM"/>
+                  <NumberAxis fx:id="xAxis" side="BOTTOM" autoRanging="false"/>
               </xAxis>
               <yAxis>
-                  <NumberAxis side="LEFT" />
+                  <NumberAxis fx:id="yAxis" side="LEFT" autoRanging="false"/>
               </yAxis>
           </LineChart>
       </center>
