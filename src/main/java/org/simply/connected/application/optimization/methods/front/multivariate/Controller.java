@@ -87,15 +87,22 @@ public class Controller implements Initializable {
                     new DiagonalMatrix(1d, 10d),
                     new Vector(5d, 15d),
                     2
+            ),
+            new QuadraticFunction (
+                    new DiagonalMatrix(4d, 4d),
+                    new Vector(-4d, -4d),
+                    1000
             )
     );
     private static final List<Vector> centers = List.of(
             new Vector(1265d/127, -1275d/127 ),
-            new Vector(-5d, -1.5)
+            new Vector(-5d, -1.5),
+            new Vector(1d, 1)
     );
     private static final List<String> funAsString = List.of(
-            "f = 64x^2 + 128xy + 64y^2 - 10x + 30y + 13",
-            "f = 0.5x^2 + 64y^2 + 5x + 15y + 2"
+            "f = 64x^2 + 126xy + 64y^2 - 10x + 30y + 13",
+            "f = 0.5x^2 + 5y^2 + 5x + 15y + 2",
+            "f = 2x^2 + 2y^2 - 4x - 4y + 1000"
     );
 
 
@@ -240,7 +247,7 @@ public class Controller implements Initializable {
 
         for (double rad = 0.1; rad < shift; rad += shift / 20) {
             double h = function.apply(sum(center, new Vector(0d, rad)));
-            double gradesPerStep = 1;
+            double gradesPerStep = 0.5;
             double angle = 0;
             XYChart.Series<Number, Number> level = new XYChart.Series<>();
             for (int i = 0; i <= 360 / gradesPerStep; i++) {
