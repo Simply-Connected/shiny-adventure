@@ -25,7 +25,7 @@ public class GradientDescentMethod extends AbstractMultivariateOptimizationMetho
         Vector p = negate(gradient.apply(x));
 
 
-        for (int it = 0; norm(p) >= EPS && it < MAX_ITERATIONS; it++) {
+        for (int it = 0; Math.abs(function.apply(getLastX()) - function.apply(x)) >= EPS && it < MAX_ITERATIONS; it++) { // TODO optimize condition
             addIteration(x, p,  curAlpha);
             Vector y = sum(x, product(curAlpha / norm(p), p));
             double fY = function.apply(y);
