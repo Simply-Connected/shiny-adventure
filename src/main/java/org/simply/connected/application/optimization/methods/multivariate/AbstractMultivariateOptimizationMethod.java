@@ -18,6 +18,7 @@ import static org.simply.connected.application.optimization.methods.multivariate
 
 public abstract class AbstractMultivariateOptimizationMethod implements MultivariateOptimizationMethod {
     protected static final int MAX_ITERATIONS = 1000;
+    protected static final int MAX_STEP = 1000;
 
     protected BiFunction<UnaryOperator<Double>, Double, OptimizationMethod> methodFactory = null;
 
@@ -41,7 +42,7 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
     }
     abstract public Vector minimize(Vector x);
 
-    public Function<Vector, Double> getFunction() {
+    public QuadraticFunction getFunction() {
         return function;
     }
 
@@ -81,10 +82,17 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
         UnaryOperator<Double> univariateFun = alpha -> function.apply(sum(x, product(alpha, p)));
         OptimizationMethod method;
         if (methodFactory == null) {
-            method = new BrentsMethod(univariateFun, 10 * EPS);
+            method = new BrentsMethod(univariateFun, EPS);
         } else  {
             method = methodFactory.apply(univariateFun, EPS);
         }
-        return method.minimize(0,  1000);
+        return method.minimize(0,  MAX_STEP);
+    }
+
+    protected Vector getLastX() {
+        if (iterationData.size() == 0) {
+            return Vector.of(function.getB().getArity(), 1e18);
+        }
+        return iterationData.get(iterationData.size() - 1).getX();
     }
 }
