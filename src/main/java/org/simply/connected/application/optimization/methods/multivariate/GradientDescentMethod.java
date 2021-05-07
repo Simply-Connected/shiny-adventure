@@ -24,22 +24,21 @@ public class GradientDescentMethod extends AbstractMultivariateOptimizationMetho
         Function<Vector, Vector> gradient = getGradient();
         Vector p = negate(gradient.apply(x));
 
-        addIteration(x, p,  curAlpha);
 
         for (int it = 0; norm(p) >= EPS && it < MAX_ITERATIONS; it++) {
+            addIteration(x, p,  curAlpha);
             Vector y = sum(x, product(curAlpha / norm(p), p));
             double fY = function.apply(y);
             while(fY >= fX) {
                 curAlpha /= 2;
                 y = sum(x, product(curAlpha / norm(p), p));
                 fY = function.apply(y);
-             //   addIteration(x, p, curAlpha);
             }
             x = y;
             p = negate(gradient.apply(x));
             fX = fY;
-            addIteration(x, p, curAlpha);
         }
+        addIteration(x, p, curAlpha);
         return x;
     }
 }
