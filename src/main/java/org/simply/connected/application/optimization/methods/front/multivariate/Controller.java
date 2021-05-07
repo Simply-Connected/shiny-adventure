@@ -317,6 +317,7 @@ public class Controller implements Initializable {
     private void clearStepButtons() {
         prevButton.setVisible(false);
         nextButton.setVisible(false);
+        iterationCountText.setText("");
         currentIterationText.setText("");
         minXText.setText("");
         minYText.setText("");
