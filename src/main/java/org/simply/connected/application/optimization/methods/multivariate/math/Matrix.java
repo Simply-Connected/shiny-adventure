@@ -12,4 +12,6 @@ public interface Matrix {
 
     double getMin();
     double getMax();
+
+    boolean isDiagonal();
 }

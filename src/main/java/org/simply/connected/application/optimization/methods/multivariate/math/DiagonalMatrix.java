@@ -52,6 +52,11 @@ public class DiagonalMatrix implements Matrix {
         return getDataDoubleStream().max().orElseThrow(IllegalStateException::new);
     }
 
+    @Override
+    public boolean isDiagonal() {
+        return true;
+    }
+
     private DoubleStream getDataDoubleStream() {
         return data.stream().mapToDouble(Double::doubleValue);
     }

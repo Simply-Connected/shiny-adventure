@@ -48,6 +48,11 @@ public class BaseMatrix implements Matrix {
         return getDataDoubleStream().max().orElseThrow(IllegalStateException::new);
     }
 
+    @Override
+    public boolean isDiagonal() {
+        return false;
+    }
+
     private DoubleStream getDataDoubleStream() {
         return data.stream().flatMapToDouble(r -> r.getData().stream().mapToDouble(Double::doubleValue));
     }
