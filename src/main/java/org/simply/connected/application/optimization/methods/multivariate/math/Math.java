@@ -59,6 +59,13 @@ public class Math {
      * Matrix is list of vectors-rows. Vector is column;
      */
     public static Vector product(Matrix a, Vector v) {
+        if (a.isDiagonal()) {
+            Vector diagonal = a.getDiagonal();
+            return new Vector(
+                    IntStream.range(0, v.getArity()).mapToDouble(it -> diagonal.get(it) * v.get(it))
+                            .boxed().collect(Collectors.toList())
+            );
+        }
         return new Vector(a.getData().stream().map(vec -> dotProduct(vec, v)).collect(Collectors.toList()));
     }
 
