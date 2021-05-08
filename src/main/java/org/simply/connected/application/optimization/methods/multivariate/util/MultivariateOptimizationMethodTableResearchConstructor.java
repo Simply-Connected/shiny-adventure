@@ -1,13 +1,17 @@
 package org.simply.connected.application.optimization.methods.multivariate.util;
 
 import org.simply.connected.application.optimization.methods.multivariate.AbstractMultivariateOptimizationMethod;
+import org.simply.connected.application.optimization.methods.multivariate.math.QuadraticFunction;
 import org.simply.connected.application.optimization.methods.multivariate.math.Vector;
 import org.simply.connected.application.optimization.methods.multivariate.model.MultivariateData;
 import org.simply.connected.application.optimization.methods.univariate.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 public class MultivariateOptimizationMethodTableResearchConstructor {
     private final AbstractMultivariateOptimizationMethod optimizationMethod;
@@ -17,7 +21,7 @@ public class MultivariateOptimizationMethodTableResearchConstructor {
     }
 
     public String iterationsUsingUnivariateMethodCSV(final Vector initialPoint) {
-        StringBuilder stringBuilder = new StringBuilder("Method, Iterations\n");
+        StringBuilder stringBuilder = new StringBuilder("Method, MultivariateIterations, UnivariateIterationSum\n");
         List<BiFunction<UnaryOperator<Double>, Double, OptimizationMethod>> factories = List.of(
                 DichotomyMethod::new,
                 GoldenRatioMethod::new,
@@ -32,16 +36,44 @@ public class MultivariateOptimizationMethodTableResearchConstructor {
 
         int i = 0;
         for (var methodFactory: factories) {
+            optimizationMethod.setUnaryMethodIterations(0);
             optimizationMethod.setMethodFactory(methodFactory);
             optimizationMethod.minimize(initialPoint);
             stringBuilder.append(
-                    String.format("%s, %s%n", methodNames.get(i), optimizationMethod.getIterationData().size())
+                    String.format("%s, %s, %d%n",
+                            methodNames.get(i),
+                            optimizationMethod.getIterationData().size(),
+                            optimizationMethod.getUnaryMethodIterations()
+                    )
             );
             i++;
         }
 
         optimizationMethod.setMethodFactory(oldFactory);
         return stringBuilder.toString();
+    }
+
+    public String iterationsUsingGeneratedFunctionsCSV() {
+        QuadraticFunction oldFun = optimizationMethod.getFunction();
+
+        StringBuilder res = new StringBuilder();
+
+        for (int arity = 10; arity <= 10_000; arity *= 10) {
+            List<Integer> iterations = new ArrayList<>();
+            for (int cond = 1; cond <= 1; cond++) {
+                QuadraticFunction fun = QuadraticFunctionGenerator.generate(arity, cond);
+                optimizationMethod.setFunction(fun);
+                optimizationMethod.minimize(Vector.of(arity, 0));
+                iterations.add(optimizationMethod.getIterationData().size());
+            }
+            res.append(arity)
+                    .append(",")
+                    .append(iterations.stream().map(Objects::toString).collect(Collectors.joining(",")))
+                    .append("\n");
+        }
+        optimizationMethod.setFunction(oldFun);
+
+        return res.toString();
     }
 
 }
