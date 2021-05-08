@@ -5,7 +5,6 @@ import java.util.List;
 public interface Matrix {
 
     List<Vector> getData();
-
     double get(int i, int j);
 
     Vector get(int i);
@@ -14,4 +13,5 @@ public interface Matrix {
     double getMax();
 
     boolean isDiagonal();
+    Vector getDiagonal();
 }

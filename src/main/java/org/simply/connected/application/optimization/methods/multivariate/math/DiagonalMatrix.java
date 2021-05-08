@@ -57,6 +57,11 @@ public class DiagonalMatrix implements Matrix {
         return true;
     }
 
+    @Override
+    public Vector getDiagonal() {
+        return new Vector(data);
+    }
+
     private DoubleStream getDataDoubleStream() {
         return data.stream().mapToDouble(Double::doubleValue);
     }

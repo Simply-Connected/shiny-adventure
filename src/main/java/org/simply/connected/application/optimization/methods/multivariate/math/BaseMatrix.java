@@ -3,9 +3,9 @@ package org.simply.connected.application.optimization.methods.multivariate.math;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class BaseMatrix implements Matrix {
@@ -51,6 +51,11 @@ public class BaseMatrix implements Matrix {
     @Override
     public boolean isDiagonal() {
         return false;
+    }
+
+    @Override
+    public Vector getDiagonal() {
+        return new Vector(IntStream.range(0, data.size()).mapToDouble(i -> get(i, i)).boxed().collect(Collectors.toList()));
     }
 
     private DoubleStream getDataDoubleStream() {
