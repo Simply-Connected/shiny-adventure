@@ -28,6 +28,8 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
 
     protected double EPS;
 
+    protected int unaryMethodIterations = 0;
+
     protected AbstractMultivariateOptimizationMethod(QuadraticFunction function, double eps) {
         this.function = function;
         EPS = eps;
@@ -45,9 +47,16 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
     public QuadraticFunction getFunction() {
         return function;
     }
-
     public void setFunction(QuadraticFunction function) {
         this.function = function;
+    }
+
+    public void setUnaryMethodIterations(int unaryMethodIterations) {
+        this.unaryMethodIterations = unaryMethodIterations;
+    }
+
+    public int getUnaryMethodIterations() {
+        return unaryMethodIterations;
     }
 
     public double getEPS() {
@@ -86,7 +95,10 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
         } else  {
             method = methodFactory.apply(univariateFun, EPS);
         }
-        return method.minimize(0,  MAX_STEP);
+
+        double optimalStep = method.minimize(0, MAX_STEP);
+        unaryMethodIterations += method.getIterationData().size();
+        return optimalStep;
     }
 
     protected Vector getLastX() {
