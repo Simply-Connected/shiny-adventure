@@ -11,6 +11,7 @@ import java.util.function.UnaryOperator;
 import static org.simply.connected.application.optimization.methods.multivariate.math.Math.*;
 
 public class GradientDescentMethod extends AbstractMultivariateOptimizationMethod {
+    private static final double START_STEP_MULTIPLIER = 0.5;
 
     public GradientDescentMethod(QuadraticFunction function, double eps) {
         super(function, eps);
@@ -25,7 +26,7 @@ public class GradientDescentMethod extends AbstractMultivariateOptimizationMetho
         double Fx = function.apply(x);
         double lastFx = Double.MAX_VALUE;
 
-        double curAlpha = 2d / (function.getMinEigenValue() + function.getMaxEigenValue()) * initialPoint.getArity();
+        double curAlpha = initialPoint.getArity() * START_STEP_MULTIPLIER;
         Function<Vector, Vector> gradient = getGradient();
         Vector p = normalize(negate(gradient.apply(x)));
 
