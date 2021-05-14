@@ -17,8 +17,7 @@ import static org.simply.connected.application.optimization.methods.multivariate
 import static org.simply.connected.application.optimization.methods.multivariate.math.Math.sum;
 
 public abstract class AbstractMultivariateOptimizationMethod implements MultivariateOptimizationMethod {
-    protected static final int MAX_ITERATIONS = 1000;
-    protected static final int MAX_STEP = 1000;
+    protected static final int MAX_ITERATIONS = 3000;
 
     protected BiFunction<UnaryOperator<Double>, Double, OptimizationMethod> methodFactory = null;
 
@@ -87,19 +86,7 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
         return Math.gradient(function);
     }
 
-    protected double getStep(Vector x, Vector p) {
-        UnaryOperator<Double> univariateFun = alpha -> function.apply(sum(x, product(alpha, p)));
-        OptimizationMethod method;
-        if (methodFactory == null) {
-            method = new BrentsMethod(univariateFun, EPS);
-        } else  {
-            method = methodFactory.apply(univariateFun, EPS);
-        }
 
-        double optimalStep = method.minimize(0, MAX_STEP);
-        unaryMethodIterations += method.getIterationData().size();
-        return optimalStep;
-    }
 
     protected Vector getLastX() {
         if (iterationData.size() == 0) {

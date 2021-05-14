@@ -2,6 +2,7 @@ package org.simply.connected.application.optimization.methods.multivariate;
 
 import org.simply.connected.application.optimization.methods.multivariate.math.QuadraticFunction;
 import org.simply.connected.application.optimization.methods.multivariate.math.Vector;
+import org.simply.connected.application.optimization.methods.univariate.BrentsMethod;
 import org.simply.connected.application.optimization.methods.univariate.OptimizationMethod;
 
 import java.util.function.BiFunction;
@@ -11,6 +12,7 @@ import java.util.function.UnaryOperator;
 import static org.simply.connected.application.optimization.methods.multivariate.math.Math.*;
 
 public class SteepestDescentMethod extends AbstractMultivariateOptimizationMethod {
+    protected static final int MAX_STEP = 1000;
 
     public SteepestDescentMethod(QuadraticFunction function, double eps) {
         super(function, eps);
@@ -45,4 +47,17 @@ public class SteepestDescentMethod extends AbstractMultivariateOptimizationMetho
         return x;
     }
 
+    private double getStep(Vector x, Vector p) {
+        UnaryOperator<Double> univariateFun = alpha -> function.apply(sum(x, product(alpha, p)));
+        OptimizationMethod method;
+        if (methodFactory == null) {
+            method = new BrentsMethod(univariateFun, EPS);
+        } else  {
+            method = methodFactory.apply(univariateFun, EPS);
+        }
+
+        double optimalStep = method.minimize(0, MAX_STEP);
+        unaryMethodIterations += method.getIterationData().size();
+        return optimalStep;
+    }
 }
