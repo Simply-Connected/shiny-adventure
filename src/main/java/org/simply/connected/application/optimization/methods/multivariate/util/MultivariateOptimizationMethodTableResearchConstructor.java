@@ -9,6 +9,7 @@ import org.simply.connected.application.optimization.methods.univariate.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.*;
 import java.util.function.BiFunction;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -56,20 +57,26 @@ public class MultivariateOptimizationMethodTableResearchConstructor {
     public String iterationsUsingGeneratedFunctionsCSV() {
         QuadraticFunction oldFun = optimizationMethod.getFunction();
 
-        StringBuilder res = new StringBuilder();
+        StringBuilder res = new StringBuilder("F,");
+        List<Integer> condNumbers = List.of(1, 2, 5, 7, 10, 20, 30, 40, 70, 100, 200, 300, 500, 1000, 1500, 2000);
+        for (int cond: condNumbers) {
+            res.append(cond).append(",");
+        }
+        res.append('\n');
+
 
         for (int arity = 10; arity <= 10_000; arity *= 10) {
             List<Integer> iterations = new ArrayList<>();
-            for (int cond = 1; cond <= 1; cond++) {
+            for (int cond : condNumbers) {
                 QuadraticFunction fun = QuadraticFunctionGenerator.generate(arity, cond);
                 optimizationMethod.setFunction(fun);
                 optimizationMethod.minimize(Vector.of(arity, 0));
                 iterations.add(optimizationMethod.getIterationData().size());
             }
             res.append(arity)
-                    .append(",")
+                    .append(", ")
                     .append(iterations.stream().map(Objects::toString).collect(Collectors.joining(",")))
-                    .append("\n");
+                    .append('\n');
         }
         optimizationMethod.setFunction(oldFun);
 
