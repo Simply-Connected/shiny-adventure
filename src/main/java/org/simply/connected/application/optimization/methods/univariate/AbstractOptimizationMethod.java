@@ -1,6 +1,6 @@
-package org.simply.connected.application.optimization.methods;
+package org.simply.connected.application.optimization.methods.univariate;
 
-import org.simply.connected.application.optimization.methods.model.Data;
+import org.simply.connected.application.optimization.methods.univariate.model.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,10 @@ import java.util.function.UnaryOperator;
 
 public abstract class AbstractOptimizationMethod implements OptimizationMethod {
     protected final List<Data> iterations;
-    protected final UnaryOperator<Double> function;
-    protected double eps;
 
+    protected UnaryOperator<Double> function;
+
+    protected double eps;
     public AbstractOptimizationMethod(UnaryOperator<Double> function, double eps) {
         this.function = function;
         this.eps = eps;
@@ -19,6 +20,10 @@ public abstract class AbstractOptimizationMethod implements OptimizationMethod {
 
     public UnaryOperator<Double> getFunction() {
         return function;
+    }
+
+    public void setFunction(UnaryOperator<Double> function) {
+        this.function = function;
     }
 
     public double getEps() {

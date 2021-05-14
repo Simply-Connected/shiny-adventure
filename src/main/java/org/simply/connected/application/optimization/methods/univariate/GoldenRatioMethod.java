@@ -1,4 +1,6 @@
-package org.simply.connected.application.optimization.methods;
+package org.simply.connected.application.optimization.methods.univariate;
+
+import org.simply.connected.application.optimization.methods.univariate.model.TernaryData;
 
 import java.util.function.UnaryOperator;
 
@@ -9,16 +11,21 @@ public class GoldenRatioMethod extends AbstractOptimizationMethod {
         super(function, eps);
     }
 
+    private void addIteration(double left, double right, double min, double x1, double x2) {
+        iterations.add(new TernaryData(left, min, right, x1, x2));
+    }
+
     @Override
     public double minimize(double a, double b) {
         iterations.clear();
 
-        addIteration(a, b, midPoint(a, b));
 
         double x1 = b - GOLDEN_RATIO * (b - a);
         double x2 = a + GOLDEN_RATIO * (b - a);
         double y1 = function.apply(x1);
         double y2 = function.apply(x2);
+
+        addIteration(a, b, midPoint(a, b), x1, x2);
 
         while ((b - a) / 2 > eps) {
             if (y1 < y2) {
@@ -39,7 +46,7 @@ public class GoldenRatioMethod extends AbstractOptimizationMethod {
                 y2 = function.apply(x2);
             }
 
-            addIteration(a, b, midPoint(a, b));
+            addIteration(a, b, midPoint(a, b), x1, x2);
         }
 
         return midPoint(a, b);

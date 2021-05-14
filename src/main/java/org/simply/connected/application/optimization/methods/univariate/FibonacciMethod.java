@@ -1,4 +1,6 @@
-package org.simply.connected.application.optimization.methods;
+package org.simply.connected.application.optimization.methods.univariate;
+
+import org.simply.connected.application.optimization.methods.univariate.model.TernaryData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +13,14 @@ public class FibonacciMethod extends AbstractOptimizationMethod {
         super(function, eps);
     }
 
+    private void addIteration(double left, double right, double min, double x1, double x2) {
+        iterations.add(new TernaryData(left, min, right, x1, x2));
+    }
+
     @Override
     public double minimize(double a, double b) {
         iterations.clear();
 
-        addIteration(a, b, midPoint(a, b));
 
         int n = calculateFibonacci(a, b, eps);
 
@@ -24,6 +29,8 @@ public class FibonacciMethod extends AbstractOptimizationMethod {
 
         double y1 = function.apply(x1);
         double y2 = function.apply(x2);
+
+        addIteration(a, b, midPoint(a, b), x1, x2);
 
         while (n-- > 0) {
             if (y1 < y2) {
@@ -40,7 +47,7 @@ public class FibonacciMethod extends AbstractOptimizationMethod {
                 y2 = function.apply(x2);
             }
 
-            addIteration(a, b, midPoint(a, b));
+            addIteration(a, b, midPoint(a, b), x1, x2);
         }
 
         return midPoint(a, b);
