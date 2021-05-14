@@ -2,8 +2,11 @@ package org.simply.connected.application.optimization.methods.multivariate;
 
 import org.simply.connected.application.optimization.methods.multivariate.math.QuadraticFunction;
 import org.simply.connected.application.optimization.methods.multivariate.math.Vector;
+import org.simply.connected.application.optimization.methods.univariate.BrentsMethod;
+import org.simply.connected.application.optimization.methods.univariate.OptimizationMethod;
 
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import static org.simply.connected.application.optimization.methods.multivariate.math.Math.*;
 
@@ -19,24 +22,27 @@ public class GradientDescentMethod extends AbstractMultivariateOptimizationMetho
         iterationData.clear();
 
         Vector x = initialPoint;
-        double fX = function.apply(x);
-        double curAlpha = 2d / (function.getMinEigenValue() + function.getMaxEigenValue());
+        double Fx = function.apply(x);
+        double lastFx = Double.MAX_VALUE;
+
+        double curAlpha = 2d / (function.getMinEigenValue() + function.getMaxEigenValue()) * initialPoint.getArity();
         Function<Vector, Vector> gradient = getGradient();
-        Vector p = negate(gradient.apply(x));
+        Vector p = normalize(negate(gradient.apply(x)));
 
 
-        for (int it = 0; Math.abs(function.apply(getLastX()) - function.apply(x)) >= EPS && it < MAX_ITERATIONS; it++) { // TODO optimize condition
+        for (int it = 0; Math.abs(lastFx - Fx) >= EPS && it < MAX_ITERATIONS; it++) {
             addIteration(x, p,  curAlpha);
-            Vector y = sum(x, product(curAlpha / norm(p), p));
-            double fY = function.apply(y);
-            while(fY >= fX) {
+            Vector y = sum(x, product(curAlpha, p));
+            double Fy = function.apply(y);
+            while(Fy >= Fx) {
                 curAlpha /= 2;
-                y = sum(x, product(curAlpha / norm(p), p));
-                fY = function.apply(y);
+                y = sum(x, product(curAlpha, p));
+                Fy = function.apply(y);
             }
             x = y;
-            p = negate(gradient.apply(x));
-            fX = fY;
+            p = normalize(negate(gradient.apply(x)));
+            lastFx = Fx;
+            Fx = Fy;
         }
         addIteration(x, p, curAlpha);
         return x;
