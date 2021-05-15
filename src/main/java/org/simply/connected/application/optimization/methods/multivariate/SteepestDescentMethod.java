@@ -29,21 +29,23 @@ public class SteepestDescentMethod extends AbstractMultivariateOptimizationMetho
         iterationData.clear();
 
         Vector x = initialPoint;
+        double y = function.apply(x);
 
         Function<Vector, Vector> gradient = getGradient();
         Vector Gx = gradient.apply(x);
         Vector p = normalize(negate(Gx));
 
-        for (int it = 0; Math.abs(function.apply(getLastX()) - function.apply(x)) >= EPS && it < MAX_ITERATIONS; it++) { // TODO optimize condition
+        for (int it = 0; Math.abs(getLastY() - y) >= EPS && it < MAX_ITERATIONS; it++) {
             double curAlpha = getStep(x, p);
-            addIteration(x, p, curAlpha);
+            addIteration(x, y);
 
             x = sum(x, product(curAlpha, p));
+            y = function.apply(x);
             Gx = gradient.apply(x);
             p = normalize(negate(Gx));
         }
 
-        addIteration(x, p,  0);
+        addIteration(x, y);
         return x;
     }
 
