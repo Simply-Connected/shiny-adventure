@@ -4,7 +4,6 @@ import org.simply.connected.application.optimization.methods.multivariate.math.M
 import org.simply.connected.application.optimization.methods.multivariate.math.QuadraticFunction;
 import org.simply.connected.application.optimization.methods.multivariate.math.Vector;
 import org.simply.connected.application.optimization.methods.multivariate.model.MultivariateData;
-import org.simply.connected.application.optimization.methods.univariate.BrentsMethod;
 import org.simply.connected.application.optimization.methods.univariate.OptimizationMethod;
 
 import java.util.ArrayList;
@@ -12,9 +11,6 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
-
-import static org.simply.connected.application.optimization.methods.multivariate.math.Math.product;
-import static org.simply.connected.application.optimization.methods.multivariate.math.Math.sum;
 
 public abstract class AbstractMultivariateOptimizationMethod implements MultivariateOptimizationMethod {
     protected static final int MAX_ITERATIONS = 3000;
@@ -78,8 +74,8 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
         this.methodFactory = methodFactory;
     }
 
-    protected void addIteration(Vector x, Vector p, double alpha) {
-        iterationData.add(new MultivariateData(x, p, alpha));
+    protected void addIteration(Vector x, double y) {
+        iterationData.add(new MultivariateData(x, y));
     }
 
     protected Function<Vector, Vector> getGradient() {
@@ -93,5 +89,12 @@ public abstract class AbstractMultivariateOptimizationMethod implements Multivar
             return Vector.of(function.getB().getArity(), 1e18);
         }
         return iterationData.get(iterationData.size() - 1).getX();
+    }
+
+    protected double getLastY() {
+        if (iterationData.size() == 0) {
+            return Double.MAX_VALUE;
+        }
+        return iterationData.get(iterationData.size() - 1).getY();
     }
 }

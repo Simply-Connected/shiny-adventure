@@ -39,7 +39,7 @@ public class ConjugateGradientMethod extends AbstractMultivariateOptimizationMet
             double curAlpha = normSquare(Gx) / dotProduct(Ap, p);
             Vector GxNext = sum(Gx, product(curAlpha, Ap));
 
-            addIteration(x, p, curAlpha);
+            addIteration(x, function.apply(x));
 
             x = sum(x, product(curAlpha, p));
             double beta = 0;
@@ -49,7 +49,7 @@ public class ConjugateGradientMethod extends AbstractMultivariateOptimizationMet
             p = sum(negate(GxNext), product(beta, p));
             Gx = GxNext;
         }
-        addIteration(x, p, 0);
+        addIteration(x, function.apply(x));
         return x;
     }
 

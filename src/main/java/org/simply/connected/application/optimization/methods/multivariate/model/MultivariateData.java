@@ -4,29 +4,23 @@ import org.simply.connected.application.optimization.methods.multivariate.math.V
 
 public class MultivariateData {
     private final Vector x;
-    private final Vector p;
-    private final double alpha;
+    private final double y;
 
-    public MultivariateData(Vector x, Vector p, double alpha) {
+    public MultivariateData(Vector x, double y) {
         this.x = x;
-        this.p = p;
-        this.alpha = alpha;
-    }
-
-    public Vector getP() {
-        return p;
+        this.y = y;
     }
 
     public Vector getX() {
         return x;
     }
 
-    public double getAlpha() {
-        return alpha;
+    public double getY() {
+        return y;
     }
 
     @Override
     public String toString() {
-        return String.format("{%s %s %.6f}", x, p, alpha);
+        return String.format("{%s %.6f}", x, y);
     }
 }
