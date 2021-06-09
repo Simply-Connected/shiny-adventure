@@ -49,6 +49,10 @@ public class Math {
         );
     }
 
+    public static Vector subtract(Vector a, Vector b) {
+        return sum(a, negate(b));
+    }
+
     private static void validateArity(Vector a, Vector b) {
         if (a.getArity() != b.getArity()) {
             throw new IllegalArgumentException("Vectors should have the same arity");
