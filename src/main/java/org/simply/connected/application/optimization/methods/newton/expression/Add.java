@@ -1,7 +1,7 @@
 package org.simply.connected.application.optimization.methods.newton.expression;
 
 public class Add extends BinaryExpression {
-    protected Add(Expression left, Expression right) {
+    public Add(Expression left, Expression right) {
         super(left, right, "+", Double::sum);
     }
 

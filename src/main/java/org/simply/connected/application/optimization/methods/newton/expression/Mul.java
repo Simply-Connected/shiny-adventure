@@ -1,7 +1,7 @@
 package org.simply.connected.application.optimization.methods.newton.expression;
 
 public class Mul extends BinaryExpression {
-    protected Mul(Expression left, Expression right) {
+    public Mul(Expression left, Expression right) {
         super(left, right, "*", (a, b) -> a * b);
     }
 

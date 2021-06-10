@@ -1,7 +1,7 @@
 package org.simply.connected.application.optimization.methods.newton.expression;
 
 public class Div extends BinaryExpression {
-    protected Div(Expression left, Expression right) {
+    public Div(Expression left, Expression right) {
         super(left, right,"/" , (a, b) -> a / b);
     }
 

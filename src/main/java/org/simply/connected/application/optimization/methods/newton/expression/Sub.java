@@ -1,7 +1,7 @@
 package org.simply.connected.application.optimization.methods.newton.expression;
 
 public class Sub extends BinaryExpression {
-    protected Sub(Expression left, Expression right) {
+    public Sub(Expression left, Expression right) {
         super(left, right, "-", (a, b) -> a - b);
     }
 
