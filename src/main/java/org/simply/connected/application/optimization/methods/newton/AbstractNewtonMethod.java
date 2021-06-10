@@ -44,7 +44,6 @@ public abstract class AbstractNewtonMethod implements NewtonOptimizationMethod {
         int maxIterations = MAX_ITERATIONS_PER_ARITY * function.getArity();
         Vector x = initialPoint;
         Vector xNext = x;
-        addIteration(x, function.apply(x));
         do {
             x = xNext;
             xNext = step(xNext);
