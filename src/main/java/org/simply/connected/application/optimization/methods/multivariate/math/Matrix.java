@@ -5,6 +5,8 @@ import java.util.List;
 public interface Matrix {
 
     List<Vector> getData();
+    double[][] toArray();
+
     double get(int i, int j);
 
     Vector get(int i);

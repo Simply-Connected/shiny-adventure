@@ -31,6 +31,11 @@ public class DiagonalMatrix implements Matrix {
     }
 
     @Override
+    public double[][] toArray() {
+        return null; //TODO
+    }
+
+    @Override
     public double get(int i, int j) {
         if (i != j)
             return 0;

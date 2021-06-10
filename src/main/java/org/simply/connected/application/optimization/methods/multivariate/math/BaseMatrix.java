@@ -30,6 +30,11 @@ public class BaseMatrix implements Matrix {
         return data;
     }
 
+    @Override
+    public double[][] toArray() {
+        return data.stream().map(Vector::toArray).toArray(double[][]::new);
+    }
+
     public double get(int i, int j) {
         return data.get(i).get(j);
     }
