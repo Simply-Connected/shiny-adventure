@@ -46,6 +46,11 @@ public class FunctionalExpression implements Function {
     }
 
     @Override
+    public double apply(Vector x) {
+        return expression.eval(x.toArray());
+    }
+
+    @Override
     public String toPythonString() {
         return expression.toPythonString();
     }

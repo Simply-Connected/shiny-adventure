@@ -9,5 +9,7 @@ public interface Function {
     Vector gradient(Vector x);
     Matrix hessian(Vector x);
 
+    double apply(Vector x);
+
     String toPythonString();
 }
