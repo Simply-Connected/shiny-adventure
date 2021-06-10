@@ -19,9 +19,6 @@ public class Power extends UnaryExpression {
 
     @Override
     public Expression der(int varInd) {
-        if (exp == 1) {
-            throw new UnsupportedOperationException("Logarithm is not implemented");
-        }
         if (exp == 0) {
             return Const.ZERO;
         }
