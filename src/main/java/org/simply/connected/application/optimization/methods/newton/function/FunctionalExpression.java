@@ -26,6 +26,11 @@ public class FunctionalExpression implements Function {
 
 
     @Override
+    public int getArity() {
+        return arity;
+    }
+
+    @Override
     public Vector gradient(Vector x) {
         return new Vector(gradient.stream().mapToDouble(d -> d.eval(x.toArray())).toArray());
     }
