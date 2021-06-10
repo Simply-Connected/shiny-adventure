@@ -13,6 +13,27 @@ public class Math {
         return new Vector(v.getData().stream().map(el -> el * c).collect(Collectors.toList()));
     }
 
+    public static Matrix product(Vector a, Vector b) {
+        validateArity(a, b);
+        return new BaseMatrix(IntStream
+                .range(0, a.getArity())
+                .mapToObj(i -> product(a.get(i), b))
+                .collect(Collectors.toList()));
+    }
+    public static Matrix product(double c, Matrix m) {
+        return new BaseMatrix(m.getData().stream().map(v -> product(c, v)).collect(Collectors.toList()));
+    }
+    public static Matrix sum(Matrix a, Matrix b) {
+        return new BaseMatrix(
+                IntStream.range(0, a.getData().size())
+                .mapToObj(i -> sum(a.get(i), b.get(i)))
+                .collect(Collectors.toList())
+        );
+    }
+
+    public static Matrix subtract(Matrix a, Matrix b) {
+        return sum(a, product(-1, b));
+    }
     public static Vector negate(Vector v) {
         return product(-1, v);
     }
