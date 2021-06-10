@@ -36,4 +36,8 @@ public class Vector {
     public String toString() {
         return "[" + data.stream().map(String::valueOf).collect(Collectors.joining(", ")) + "]";
     }
+
+    public double[] toArray() {
+        return data.stream().mapToDouble(Double::doubleValue).toArray();
+    }
 }
