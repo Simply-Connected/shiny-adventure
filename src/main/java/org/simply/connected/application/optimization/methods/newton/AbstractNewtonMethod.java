@@ -4,13 +4,14 @@ import org.simply.connected.application.optimization.methods.multivariate.math.M
 import org.simply.connected.application.optimization.methods.multivariate.math.Vector;
 import org.simply.connected.application.optimization.methods.newton.function.Function;
 import org.simply.connected.application.optimization.methods.newton.model.NewtonData;
-import org.simply.connected.application.optimization.methods.slae.GaussSlaeSolver;
 import org.simply.connected.application.optimization.methods.slae.LUDecompositionSlaeSolver;
 import org.simply.connected.application.optimization.methods.slae.math.DenseMatrix;
 
-import static org.simply.connected.application.optimization.methods.multivariate.math.Math.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.simply.connected.application.optimization.methods.multivariate.math.Math.norm;
+import static org.simply.connected.application.optimization.methods.multivariate.math.Math.subtract;
 
 public abstract class AbstractNewtonMethod implements NewtonOptimizationMethod {
     private static final double DEFAULT_EPS = 1e-8;
